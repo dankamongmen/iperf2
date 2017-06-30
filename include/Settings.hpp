@@ -184,7 +184,7 @@ typedef struct thread_Settings {
     Socklen_t size_local;
     nthread_t mTID;
     char* mCongestion;
-    int mQuantum;
+    max_size_t mQuantum;
     char peerversion[80];
 #if defined( HAVE_WIN32_THREAD )
     HANDLE mHandle;
