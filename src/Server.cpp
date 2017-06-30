@@ -105,7 +105,7 @@ void Server::RunTCP( void ) {
     max_size_t totLen = 0;
     ReportStruct *reportstruct = NULL;
     int running;
-    bool mMode_Time = isServerModeTime( mSettings );
+    bool mMode_Time = isServerModeTime( mSettings ) || isServerQuantum( mSettings );
 
     reportstruct = new ReportStruct;
     if ( reportstruct != NULL ) {
@@ -247,6 +247,8 @@ void Server::RunUDP( void ) {
 	    sorcvtimer = (int) (mSettings->mInterval * 1e6) / 2;
 	} else if (isModeTime(mSettings)) {
 	    sorcvtimer = (mSettings->mAmount * 1000) / 2;
+	} else if (isServerQuantum(mSettings)) {
+	    sorcvtimer = (mSettings->mQuantum * 1000) / 2;
 	}
 	if (sorcvtimer > 0) {
 #ifdef WIN32
