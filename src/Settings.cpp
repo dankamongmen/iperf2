@@ -126,6 +126,7 @@ const struct option long_options[] =
 {"nodelay",          no_argument, NULL, 'N'},
 {"listenport", required_argument, NULL, 'L'},
 {"parallel",   required_argument, NULL, 'P'},
+{"quantum",    required_argument, NULL, 'Q'},
 #ifdef WIN32
 {"remove",           no_argument, NULL, 'R'},
 #else
@@ -181,6 +182,7 @@ const struct option env_options[] =
 {"IPERF_NODELAY",          no_argument, NULL, 'N'},
 {"IPERF_LISTENPORT", required_argument, NULL, 'L'},
 {"IPERF_PARALLEL",   required_argument, NULL, 'P'},
+{"IPERF_QUANTUM",    required_argument, NULL, 'Q'},
 {"IPERF_TOS",        required_argument, NULL, 'S'},
 {"IPERF_TTL",        required_argument, NULL, 'T'},
 {"IPERF_SINGLE_UDP",       no_argument, NULL, 'U'},
@@ -193,7 +195,7 @@ const struct option env_options[] =
 #define SHORT_OPTIONS()
 
 const char short_options_priority1[] = "-V";
-const char short_options[] = "1b:c:def:hi:l:mn:o:p:rst:uvw:x:y:zB:CDF:IL:M:NP:RS:T:UVWXZ:";
+const char short_options[] = "1b:c:def:hi:l:mn:o:p:rst:uvw:x:y:zB:CDF:IL:M:NP:Q:RS:T:UVWXZ:";
 
 /* -------------------------------------------------------------------
  * defaults
@@ -252,6 +254,7 @@ void Settings_Initialize( thread_Settings *main ) {
     //main->mMSS          = 0;           // -M,  ie. don't set MSS
     //main->mNodelay    = false;         // -N,  don't set nodelay
     //main->mThreads      = 0;           // -P,
+    //main->mQuantum      = 0;           // -Q,  don't use a server quantum
     //main->mRemoveService = false;      // -R,
     //main->mTOS          = 0;           // -S,  ie. don't set type of service
     main->mTTL          = 1;             // -T,  link-local TTL
@@ -678,6 +681,12 @@ void Settings_Interpret( char option, const char *optarg, thread_Settings *mExtS
             }
 #endif
             break;
+
+	case 'Q': // time to allow each client in server mode
+	    setServerQuantum( mExtSettings );
+	    mExtSettings->mQuantum = (int) (atof( optarg ) * 100.0);
+	    break;
+
 #ifdef WIN32
         case 'R':
             setRemoveService( mExtSettings );

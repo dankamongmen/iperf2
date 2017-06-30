@@ -184,6 +184,7 @@ typedef struct thread_Settings {
     Socklen_t size_local;
     nthread_t mTID;
     char* mCongestion;
+    int mQuantum;
     char peerversion[80];
 #if defined( HAVE_WIN32_THREAD )
     HANDLE mHandle;
@@ -230,6 +231,8 @@ typedef struct thread_Settings {
 #define FLAG_BWSET          0x01000000
 #define FLAG_ENHANCEDREPORT 0x02000000
 #define FLAG_SERVERMODETIME 0x04000000
+#define FLAG_SERVERQUANTUM  0x08000000
+
 /*
  * Extended flags
  */
@@ -266,6 +269,7 @@ typedef struct thread_Settings {
 #define isBWSet(settings)          ((settings->flags & FLAG_BWSET) != 0)
 #define isEnhanced(settings)       ((settings->flags & FLAG_ENHANCEDREPORT) != 0)
 #define isServerModeTime(settings) ((settings->flags & FLAG_SERVERMODETIME) != 0)
+#define isServerQuantum(settings)  ((settings->flags & FLAG_SERVERQUANTUM) != 0)
 #define isPeerVerDetect(settings)       ((settings->flags_extend & FLAG_PEERVER) != 0)
 #define isSeqNo64b(settings)       ((settings->flags_extend & FLAG_SEQNO64) != 0)
 #define isReverse(settings)       ((settings->flags_extend & FLAG_REVERSE) != 0)
@@ -297,6 +301,7 @@ typedef struct thread_Settings {
 #define setBWSet(settings)         settings->flags |= FLAG_BWSET
 #define setEnhanced(settings)      settings->flags |= FLAG_ENHANCEDREPORT
 #define setServerModeTime(settings)      settings->flags |= FLAG_SERVERMODETIME
+#define setServerQuantum(settings) settings->flags |= FLAG_SERVERQUANTUM
 #define setPeerVerDetect(settings)      settings->flags_extend |= FLAG_PEERVER
 #define setSeqNo64b(settings)      settings->flags_extend |= FLAG_SEQNO64
 #define setReverse(settings)      settings->flags_extend |= FLAG_REVERSE
@@ -328,6 +333,7 @@ typedef struct thread_Settings {
 #define unsetBWSet(settings)       settings->flags &= ~FLAG_BWSET
 #define unsetEnhanced(settings)    settings->flags &= ~FLAG_ENHANCEDREPORT
 #define unsetServerModeTime(settings)    settings->flags &= ~FLAG_SERVERMODETIME
+#define unsetServerQuantum(settings)     settings->flags &= ~FLAG_SERVERQUANTUM
 #define unsetPeerVerDetect(settings)    settings->flags_extend &= ~FLAG_PEERVER
 #define unsetSeqNo64b(settings)    settings->flags_extend &= ~FLAG_SEQNO64
 #define unsetReverse(settings)    settings->flags_extend &= ~FLAG_REVERSE
